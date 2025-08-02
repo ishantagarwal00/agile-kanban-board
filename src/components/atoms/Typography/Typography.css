@@ -1,0 +1,12 @@
+.typography--h2 {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+}
+.typography--h3 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+}
+.typography--body {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+}
