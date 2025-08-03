@@ -1,0 +1,124 @@
+/* src/components/TaskModal/TaskModal.css */
+
+:root {
+  --modal-width: 480px;
+  --modal-max-width: 94vw;
+  --modal-bg: var(--color-white);
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.54);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-modal);
+}
+
+.modal-content {
+  background: var(--modal-bg);
+  border-radius: var(--border-radius-lg);
+  width: var(--modal-width);
+  max-width: var(--modal-max-width);
+  box-shadow: var(--shadow-lg), var(--shadow-sm);
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1.5px solid var(--color-gray-100);
+}
+
+.modal-title {
+  font-size: var(--font-size-xl, 1.4rem);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-800);
+  letter-spacing: 0.01em;
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  font-size: var(--font-size-xxl, 2rem);
+  color: var(--color-gray-400);
+  cursor: pointer;
+  padding: 0 var(--spacing-xs);
+  line-height: 1;
+  opacity: 0.75;
+  transition: color var(--transition-base), opacity var(--transition-base);
+}
+
+.modal-close-btn:hover,
+.modal-close-btn:focus-visible {
+  color: var(--color-primary);
+  opacity: 1;
+  outline: none;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.task-input,
+.task-textarea {
+  width: 100%;
+  border: none;
+  outline: none;
+  transition: border-color var(--transition-base);
+}
+
+.task-input {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-text);
+  border-bottom: 2px solid var(--color-primary);
+  padding: var(--spacing-sm) 0 calc(var(--spacing-xs) / 2) 0;
+  margin-bottom: var(--spacing-xs);
+  background: transparent;
+}
+
+.task-input:focus {
+  border-bottom-color: var(--color-primary-hover);
+}
+
+.task-textarea {
+  min-height: 80px;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  color: var(--color-gray-text);
+  background: var(--color-gray-50);
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-sm);
+  resize: vertical;
+  margin-bottom: var(--spacing-xs);
+  box-shadow: var(--shadow-sm);
+}
+
+.comments-label {
+  font-size: var(--font-size-base);
+  color: var(--color-gray-600);
+  font-weight: var(--font-weight-semibold);
+  margin: var(--spacing-sm) 0;
+  letter-spacing: 0.02em;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-md);
+  border-top: 1px solid var(--color-gray-100);
+  padding-top: var(--spacing-sm);
+  margin-top: var(--spacing-xs);
+}
