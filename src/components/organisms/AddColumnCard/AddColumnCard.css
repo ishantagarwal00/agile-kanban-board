@@ -1,0 +1,45 @@
+.add-column-card {
+  background: rgba(255, 255, 255, 0.97);
+  border: 2px dashed var(--color-gray-300);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  min-width: 280px;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-md) var(--spacing-sm);
+}
+
+.add-column-placeholder {
+  color: var(--color-gray-500);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  opacity: 0.65;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.12s;
+}
+
+.add-column-placeholder:hover {
+  opacity: 1;
+  color: var(--color-primary);
+}
+
+.add-column-title.editing,
+.add-column-title:focus {
+  outline: none;
+  border-bottom: 1px dashed var(--color-primary);
+  padding-bottom: 2px;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-700);
+  background: transparent;
+}
+
+.add-column-title:empty:not(.editing)::before {
+  content: attr(data-placeholder);
+  color: var(--color-gray-400);
+  opacity: 0.7;
+  pointer-events: none;
+  font-style: italic;
+}
