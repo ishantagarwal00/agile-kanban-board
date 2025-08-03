@@ -18,7 +18,7 @@ html {
 }
 
 body {
-  background: #f5f6fa;
+  background: #ffffff;
   font-family: var(--font-family-primary);
   font-size: var(--font-size-base);
   line-height: var(--line-height-normal);
@@ -33,16 +33,6 @@ body {
   min-height: 100vh;
   padding: var(--spacing-lg);
 }
-
-/* body {
-  font-family: var(--font-family-primary);
-  font-size: var(--font-size-base);
-  line-height: var(--line-height-normal);
-  color: var(--color-gray-800);
-  background-color: var(--color-gray-50);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-} */
 
 /* Form Elements */
 input,
@@ -61,18 +51,6 @@ button {
 *:focus {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
-}
-
-/* Utilities */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
 }
 
 .container {

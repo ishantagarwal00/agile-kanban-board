@@ -1,4 +1,4 @@
-.textarea {
+.textarea-field {
   width: 100%;
   padding: 0.5rem;
   border: 1px solid var(--color-gray-300);
@@ -7,7 +7,7 @@
   transition: border-color var(--transition-base);
   resize: vertical;
 }
-.textarea:focus {
+.textarea-field:focus {
   outline: none;
   border-color: var(--color-primary);
 }

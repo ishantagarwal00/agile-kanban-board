@@ -1,22 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { BoardContext } from "../../../contexts/BoardContext/BoardContext";
 import { Column as ColumnOrganism } from "../../organisms/Column/Column";
-import { Button } from "../../atoms/Button/Button";
-import { Input } from "../../atoms/Input/Input";
 import { Typography } from "../../atoms/Typography/Typography";
 import { TaskModal } from "../../organisms/TaskModal/TaskModal";
 import "./BoardLayout.css";
+import { AddColumnCard } from "../../organisms/AddColumnCard/AddColumnCard";
 
 export const BoardLayout: React.FC = () => {
-  const { columns, addColumn } = useContext(BoardContext)!;
-  const [newColTitle, setNewColTitle] = useState("");
-
-  const handleAddColumn = () => {
-    if (newColTitle.trim()) {
-      addColumn(newColTitle.trim());
-      setNewColTitle("");
-    }
-  };
+  const { columns } = useContext(BoardContext)!;
 
   return (
     <>
@@ -34,14 +25,7 @@ export const BoardLayout: React.FC = () => {
           {columns.map((col) => (
             <ColumnOrganism key={col.id} column={col} />
           ))}
-          <div className="add-column">
-            <Input
-              value={newColTitle}
-              onChange={setNewColTitle}
-              placeholder="Enter column title..."
-            />
-            <Button onClick={handleAddColumn}>Add Column</Button>
-          </div>
+          <AddColumnCard />
         </div>
       </div>
 

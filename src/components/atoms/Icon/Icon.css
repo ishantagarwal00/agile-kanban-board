@@ -7,3 +7,8 @@
 .icon--clickable {
   cursor: pointer;
 }
+
+.icon:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}

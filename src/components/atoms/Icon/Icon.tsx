@@ -3,8 +3,9 @@ import "./Icon.css";
 
 interface IconProps {
   name: "plus" | "edit" | "delete" | "close" | "drag" | "comment";
-  onClick?: () => void;
+  title?: string;
   className?: string;
+  onClick?: () => void;
 }
 
 export const Icon: React.FC<IconProps> = ({
@@ -51,6 +52,8 @@ export const Icon: React.FC<IconProps> = ({
     <span
       onClick={onClick}
       className={`icon ${onClick ? "icon--clickable" : ""} ${className}`}
+      tabIndex={0}
+      role="button"
     >
       {icons[name]}
     </span>
