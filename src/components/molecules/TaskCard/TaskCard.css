@@ -1,0 +1,123 @@
+.task-card {
+  background: var(--color-white);
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--color-gray-border);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-md);
+  cursor: pointer;
+  transition: transform var(--transition-base),
+    box-shadow var(--transition-base), background var(--transition-base),
+    border-color var(--transition-base);
+  position: relative;
+  margin-bottom: var(--spacing-sm);
+}
+
+.task-card:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-primary);
+  background: var(--color-white);
+  transform: translateY(-1px);
+  cursor: pointer;
+}
+
+.task-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.task-card:hover::before {
+  opacity: 1;
+}
+
+.task-card--dragging {
+  opacity: 0.6;
+  transform: rotate(2deg);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary);
+  background: var(--color-gray-50);
+}
+
+.task-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+}
+
+.task-title {
+  flex: 1;
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  color: var(--color-gray-text);
+  word-break: break-word;
+  margin: 0;
+}
+
+.task-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  flex-shrink: 0;
+}
+
+.task-card:hover .task-actions {
+  opacity: 1;
+}
+
+.icon-wrapper {
+  background: none;
+  border: none;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gray-400);
+  transition: color var(--transition-base);
+}
+
+.icon-wrapper:hover,
+.icon-wrapper:focus-visible {
+  color: var(--color-primary);
+  outline: none;
+}
+
+.task-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--color-gray-border);
+  margin-top: var(--spacing-sm);
+}
+
+.task-date {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-muted);
+}
+
+.comment-count {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-600);
+  background: rgba(37, 99, 235, 0.1);
+  padding: calc(var(--spacing-xs) / 2) var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+}
+
+.comment-count span {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+}

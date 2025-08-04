@@ -1,0 +1,13 @@
+.textarea-field {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-base);
+  transition: border-color var(--transition-base);
+  resize: vertical;
+}
+.textarea-field:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}

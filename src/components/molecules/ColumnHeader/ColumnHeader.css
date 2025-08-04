@@ -1,0 +1,112 @@
+.column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-sm);
+  gap: var(--spacing-sm);
+}
+
+.column-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex: 1;
+  min-width: 0;
+}
+
+.column-title {
+  flex: 1;
+  margin: 0;
+  min-width: 0;
+}
+
+.column-title-text {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: text;
+}
+
+.column-title-text:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.column-rename-input {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-gray-text);
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.task-count {
+  flex-shrink: 0;
+  background: var(--color-gray-50);
+  color: var(--color-primary);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-sm, 0.875rem);
+  font-weight: var(--font-weight-normal);
+  text-align: center;
+  min-width: 1.75em;
+  margin-left: var(--spacing-xs);
+}
+
+.column-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.column-actions Button {
+  padding: var(--spacing-xs);
+}
+
+.column-actions Button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.column-title button {
+  cursor: pointer;
+}
+
+.column-title button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.icon-wrapper {
+  background: none;
+  border: none;
+  padding: var(--spacing-xs);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gray-400);
+  transition: color var(--transition-base);
+}
+
+.icon-wrapper:hover,
+.icon-wrapper:focus-visible {
+  color: var(--color-primary);
+  outline: none;
+}
+
+.icon-wrapper:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
