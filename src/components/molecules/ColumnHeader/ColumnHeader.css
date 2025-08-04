@@ -44,7 +44,7 @@
   min-width: 0;
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
-  padding: var(--spacing-md) 0;
+  padding: 0;
   border: none;
   background: transparent;
   color: var(--color-gray-text);
@@ -69,6 +69,24 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
+}
+
+.column-actions Button {
+  padding: var(--spacing-xs);
+}
+
+.column-actions Button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.column-title button {
+  cursor: pointer;
+}
+
+.column-title button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 .icon-wrapper {

@@ -15,6 +15,7 @@
 
   --font-weight-normal: 400;
   --font-weight-semibold: 600;
+  --font-weight-bold: 700
 
   /* Spacing */
   --spacing-xs: 0.25rem;
@@ -37,13 +38,12 @@
   /* Z-index for modal */
   --z-modal: 1050;
 
-  --color-primary: #2563eb;
+  --color-primary: #3653f8;
   --color-primary-hover: #1749b1;
   --color-danger: #e45757;
   --color-success: #2ecda7;
 
   --color-gray-bg: #f5f6fa;
-  --color-gray-card: #fff;
   --color-gray-border: #e6e8ec;
   --color-gray-text: #384251;
   --color-muted: #9097a2;

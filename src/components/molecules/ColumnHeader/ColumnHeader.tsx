@@ -14,10 +14,14 @@ import "./ColumnHeader.css";
 
 interface ColumnHeaderProps {
   column: Column;
+  onRequestDelete?: () => void;
 }
 
-export const ColumnHeader: React.FC<ColumnHeaderProps> = ({ column }) => {
-  const { renameColumn, deleteColumn } = useContext(BoardContext)!;
+export const ColumnHeader: React.FC<ColumnHeaderProps> = ({
+  column,
+  onRequestDelete,
+}) => {
+  const { renameColumn } = useContext(BoardContext)!;
   const [isRenaming, setIsRenaming] = useState(false);
   const [tempTitle, setTempTitle] = useState(column.title);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -43,64 +47,62 @@ export const ColumnHeader: React.FC<ColumnHeaderProps> = ({ column }) => {
     setIsRenaming(false);
   }, [column.id, column.title, renameColumn, tempTitle]);
 
-  const handleDelete = useCallback(() => {
-    if (window.confirm("Delete this column?")) {
-      deleteColumn(column.id);
-    }
-  }, [column.id, deleteColumn]);
-
   return (
-    <div className="column-header">
-      <div className="column-title-wrapper">
-        {isRenaming ? (
-          <Input
-            name="column-title"
-            ref={inputRef}
-            value={tempTitle}
-            onChange={setTempTitle}
-            className="column-rename-input"
-            onKeyDown={(e) => {
-              if (e.key === "Enter") handleRename();
-              if (e.key === "Escape") setIsRenaming(false);
-            }}
-            onBlur={handleRename}
-          />
-        ) : (
-          <Typography variant="h3" className="column-title">
-            <button
-              type="button"
-              className="column-title-text"
+    <div>
+      <div className="column-header">
+        <div className="column-title-wrapper">
+          {isRenaming ? (
+            <Input
+              name="column-title"
+              ref={inputRef}
+              value={tempTitle}
+              onChange={setTempTitle}
+              className="column-rename-input"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleRename();
+                if (e.key === "Escape") setIsRenaming(false);
+              }}
+              onBlur={handleRename}
+            />
+          ) : (
+            <Typography
+              variant="h3"
+              className="column-title"
+              tabIndex={0}
               onDoubleClick={() => setIsRenaming(true)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") setIsRenaming(true);
               }}
-              aria-label="Rename column"
+              aria-label={`Rename column "${column.title}"`}
             >
               {column.title}
-            </button>
-          </Typography>
-        )}
-        <div className="task-count" aria-label={`${column.tasks.length} tasks`}>
-          {column.tasks.length}
+            </Typography>
+          )}
+          <div
+            className="task-count"
+            aria-label={`${column.tasks.length} tasks`}
+          >
+            {column.tasks.length}
+          </div>
         </div>
-      </div>
-      <div className="column-actions">
-        <button
-          type="button"
-          className="icon-wrapper"
-          onClick={() => setIsRenaming(true)}
-          aria-label="Rename column"
-        >
-          <Icon name="edit" />
-        </button>
-        <button
-          type="button"
-          className="icon-wrapper"
-          onClick={handleDelete}
-          aria-label="Delete column"
-        >
-          <Icon name="delete" />
-        </button>
+        <div className="column-actions">
+          <button
+            type="button"
+            className="icon-wrapper"
+            onClick={() => setIsRenaming(true)}
+            aria-label="Rename column"
+          >
+            <Icon name="edit" />
+          </button>
+          <button
+            type="button"
+            className="icon-wrapper"
+            onClick={onRequestDelete}
+            aria-label="Delete column"
+          >
+            <Icon name="delete" />
+          </button>
+        </div>
       </div>
     </div>
   );

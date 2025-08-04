@@ -49,6 +49,14 @@ export type BoardAction =
     }
   | { type: "ADD_COMMENT"; payload: { taskId: string; content: string } }
   | {
+      type: "EDIT_COMMENT";
+      payload: { taskId: string; commentId: string; content: string };
+    }
+  | {
+      type: "DELETE_COMMENT";
+      payload: { taskId: string; commentId: string };
+    }
+  | {
       type: "SET_DRAGGED_TASK";
       payload: { taskId: string; fromColumnId: string } | null;
     }
@@ -64,4 +72,17 @@ export type BoardAction =
   | {
       type: "REORDER_TASKS";
       payload: { columnId: string; fromIndex: number; toIndex: number };
+    }
+  | {
+      type: "DELETE_TASK";
+      payload: { taskId: string; columnId: string };
     };
+export interface TaskModalState {
+  task: Task | null;
+  mode: "view" | "edit";
+}
+
+export type DeleteTarget =
+  | { type: "column"; columnId: string }
+  | { type: "task"; columnId: string; taskId: string }
+  | { type: "comment"; taskId: string; commentId: string };

@@ -21,16 +21,18 @@ export const Typography: React.FC<TypographyProps> = ({
   onDoubleClick,
   onKeyDown,
   tabIndex = -1,
+  ...rest
 }) => {
   const tag = variant === "h2" ? "h2" : variant === "h3" ? "h3" : "p";
   return React.createElement(
     tag,
     {
-      className: `typography typography--${variant} ${className}`,
+      className: `typography typography-${variant} ${className}`,
       tabIndex: tabIndex,
       title: title,
       onDoubleClick: onDoubleClick,
       onKeyDown: onKeyDown,
+      ...rest,
     },
     children
   );

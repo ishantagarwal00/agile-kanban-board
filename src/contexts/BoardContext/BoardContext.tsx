@@ -1,4 +1,10 @@
-import React, { createContext, useReducer, useEffect, ReactNode } from "react";
+import React, {
+  createContext,
+  useReducer,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 import { Column, Task, BoardAction } from "./../../types/index";
 import { COLUMN_COLORS } from "../../utils/colors";
 interface BoardState {
@@ -30,6 +36,13 @@ function boardReducer(state: BoardState, action: BoardAction): BoardState {
     case "INIT":
       return { ...state, columns: action.payload };
     case "ADD_COLUMN":
+      const title = action.payload.title.trim();
+      if (!title) return state;
+      if (
+        state.columns.some((c) => c.title.toLowerCase() === title.toLowerCase())
+      ) {
+        return state;
+      }
       const color = COLUMN_COLORS[state.columns.length % COLUMN_COLORS.length];
       const newColumn: Column = {
         id: `col-${Date.now()}`,
@@ -40,6 +53,16 @@ function boardReducer(state: BoardState, action: BoardAction): BoardState {
       };
       return { ...state, columns: [...state.columns, newColumn] };
     case "RENAME_COLUMN":
+      const newTitle = action.payload.title.trim();
+      if (!newTitle) return state;
+      if (
+        state.columns.some(
+          (c) =>
+            c.title.toLowerCase() === newTitle.toLowerCase() &&
+            c.id !== action.payload.columnId
+        )
+      )
+        return state;
       return {
         ...state,
         columns: state.columns.map((col) =>
@@ -56,6 +79,8 @@ function boardReducer(state: BoardState, action: BoardAction): BoardState {
         ),
       };
     case "ADD_TASK":
+      const taskTitle = action.payload.title.trim();
+      if (!taskTitle) return state;
       return {
         ...state,
         columns: state.columns.map((col) =>
@@ -80,6 +105,8 @@ function boardReducer(state: BoardState, action: BoardAction): BoardState {
     case "SELECT_TASK":
       return { ...state, selectedTask: action.payload };
     case "UPDATE_TASK":
+      const updatedTitle = action.payload.title.trim();
+      if (!updatedTitle) return state;
       return {
         ...state,
         columns: state.columns.map((col) => ({
@@ -97,6 +124,8 @@ function boardReducer(state: BoardState, action: BoardAction): BoardState {
         })),
       };
     case "ADD_COMMENT":
+      const commentContent = action.payload.content.trim();
+      if (!commentContent) return state;
       return {
         ...state,
         columns: state.columns.map((col) => ({
@@ -173,6 +202,57 @@ function boardReducer(state: BoardState, action: BoardAction): BoardState {
       };
     }
 
+    case "EDIT_COMMENT":
+      return {
+        ...state,
+        columns: state.columns.map((col) => ({
+          ...col,
+          tasks: col.tasks.map((task) =>
+            task.id === action.payload.taskId
+              ? {
+                  ...task,
+                  comments: task.comments.map((comment) =>
+                    comment.id === action.payload.commentId
+                      ? { ...comment, content: action.payload.content }
+                      : comment
+                  ),
+                }
+              : task
+          ),
+        })),
+      };
+    case "DELETE_COMMENT":
+      return {
+        ...state,
+        columns: state.columns.map((col) => ({
+          ...col,
+          tasks: col.tasks.map((task) =>
+            task.id === action.payload.taskId
+              ? {
+                  ...task,
+                  comments: task.comments.filter(
+                    (comment) => comment.id !== action.payload.commentId
+                  ),
+                }
+              : task
+          ),
+        })),
+      };
+    case "DELETE_TASK":
+      return {
+        ...state,
+        columns: state.columns.map((col) =>
+          col.id === action.payload.columnId
+            ? {
+                ...col,
+                tasks: col.tasks.filter(
+                  (task) => task.id !== action.payload.taskId
+                ),
+              }
+            : col
+        ),
+      };
+
     default:
       return state;
   }
@@ -194,6 +274,13 @@ interface BoardContextProps extends BoardState {
     idx: number
   ) => void;
   reorderTasks: (colId: string, fromIdx: number, toIdx: number) => void;
+  openTaskModal: (task: Task, mode?: "view" | "edit") => void;
+  closeTaskModal: () => void;
+  setTaskModalMode: (mode: "view" | "edit") => void;
+  taskModalMode: "view" | "edit";
+  editComment: (taskId: string, commentId: string, content: string) => void;
+  deleteComment: (taskId: string, commentId: string) => void;
+  deleteTask: (taskId: string, columnId: string) => void;
 }
 
 export const BoardContext = createContext<BoardContextProps | undefined>(
@@ -203,23 +290,26 @@ export const BoardContext = createContext<BoardContextProps | undefined>(
 export const BoardProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [state, dispatch] = useReducer(boardReducer, initialState);
-
-  // Persist to localStorage
-  useEffect(() => {
+  const getInitialBoardState = (): BoardState => {
     try {
       const raw = localStorage.getItem("kanban-board");
-      if (!raw) return; // nothing to init
-
+      if (!raw) return initialState;
       const parsed = JSON.parse(raw);
-      // basic validation
       if (!parsed || !Array.isArray(parsed.columns)) throw new Error();
-
-      dispatch({ type: "INIT", payload: parsed.columns });
+      return {
+        ...initialState,
+        columns: parsed.columns,
+      };
     } catch {
-      console.warn("Invalid or missing board data; using defaults");
+      return initialState;
     }
-  }, []);
+  };
+  const [state, dispatch] = useReducer(
+    boardReducer,
+    undefined,
+    getInitialBoardState
+  );
+  const [taskModalMode, setTaskModalMode] = useState<"view" | "edit">("view");
 
   useEffect(() => {
     try {
@@ -252,6 +342,22 @@ export const BoardProvider: React.FC<{ children: ReactNode }> = ({
     } else {
       dispatch({ type: "SET_DRAGGED_TASK", payload: null });
     }
+  };
+  const editComment = (taskId: string, commentId: string, content: string) =>
+    dispatch({ type: "EDIT_COMMENT", payload: { taskId, commentId, content } });
+  const deleteComment = (taskId: string, commentId: string) =>
+    dispatch({ type: "DELETE_COMMENT", payload: { taskId, commentId } });
+
+  const openTaskModal = (task: Task, mode: "view" | "edit" = "view") => {
+    selectTask(task);
+    setTaskModalMode(mode);
+  };
+  const closeTaskModal = () => {
+    selectTask(null);
+    setTaskModalMode("view");
+  };
+  const deleteTask = (taskId: string, columnId: string) => {
+    dispatch({ type: "DELETE_TASK", payload: { taskId, columnId } });
   };
 
   const moveTask = (
@@ -291,6 +397,13 @@ export const BoardProvider: React.FC<{ children: ReactNode }> = ({
         setDraggedTask,
         moveTask,
         reorderTasks,
+        setTaskModalMode,
+        openTaskModal,
+        closeTaskModal,
+        editComment,
+        deleteComment,
+        taskModalMode,
+        deleteTask,
       }}
     >
       {children}

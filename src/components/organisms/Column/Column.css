@@ -1,10 +1,9 @@
 .column {
-  background: #fff;
+  background: var(--color-white);
   border-radius: 12px;
   box-shadow: 0 3px 12px rgba(44, 62, 80, 0.06);
   border: 1px solid #edeef2;
   min-width: 350px;
-  /* max-width: 320px; */
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -90,10 +89,10 @@
 }
 .add-task-btn:hover,
 .add-task-btn:focus {
-  background: var(--color-gray-200, #e5e7eb);
-  border-color: var(--color-primary, #2563eb);
-  color: var(--color-primary, #2563eb);
+  border-color: var(--color-primary, --color-white);
   outline: none;
+  background-color: #008cba;
+  color: white;
 }
 
 .add-task-input-wrapper {
@@ -112,16 +111,10 @@
 .add-task-input-wrapper input {
   width: 100%;
   border: none;
-  border-bottom: 2px solid var(--color-primary, #2563eb);
   background: transparent;
   font-size: 1rem;
   padding: var(--spacing-sm, 0.5rem) 0;
   outline: none;
-  transition: border-color 0.13s;
-}
-
-.add-task-input-wrapper input:focus {
-  border-bottom: 2px solid var(--color-primary-hover, #1749b1);
 }
 
 .add-task-actions {
@@ -141,4 +134,32 @@
 }
 .column-actions .icon:hover {
   color: var(--color-primary);
+}
+
+.add-task-actions button {
+  width: 4.375rem;
+  height: 1.875rem;
+  border: none;
+  background-color: #3653f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--border-radius-lg);
+}
+
+@media (max-width: 768px) {
+  .column {
+    min-width: 280px;
+    width: 80vw;
+  }
+
+  .add-column {
+    min-width: 280px;
+    width: 80vw;
+  }
+
+  .tasks-list,
+  .column {
+    -webkit-overflow-scrolling: touch;
+  }
 }

@@ -1,4 +1,3 @@
-// src/components/Column/Column.tsx
 import React, { useContext, useState, useCallback } from "react";
 import { Column as ColumnType } from "../../../types";
 import { BoardContext } from "../../../contexts/BoardContext/BoardContext";
@@ -11,9 +10,15 @@ import "./Column.css";
 
 interface ColumnProps {
   column: ColumnType;
+  onRequestDelete: () => void;
+  onRequestDeleteTask: (taskId: string) => void;
 }
 
-export const Column: React.FC<ColumnProps> = ({ column }) => {
+export const Column: React.FC<ColumnProps> = ({
+  column,
+  onRequestDelete,
+  onRequestDeleteTask,
+}) => {
   const { addTask, draggedTask, moveTask, reorderTasks } =
     useContext(BoardContext)!;
   const [taskTitle, setTaskTitle] = useState("");
@@ -59,12 +64,19 @@ export const Column: React.FC<ColumnProps> = ({ column }) => {
 
   const handleAddTask = useCallback(() => {
     const trimmed = taskTitle.trim();
+    if (!trimmed) return;
+    if (
+      column.tasks.some((t) => t.title.toLowerCase() === trimmed.toLowerCase())
+    ) {
+      alert("Task with this title already exists.");
+      return;
+    }
     if (trimmed) {
       addTask(column.id, trimmed);
       setTaskTitle("");
       setShowAddForm(false);
     }
-  }, [taskTitle, column.id, addTask]);
+  }, [taskTitle, column.id, addTask, column.tasks]);
 
   return (
     <div
@@ -75,8 +87,7 @@ export const Column: React.FC<ColumnProps> = ({ column }) => {
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
-      <ColumnHeader column={column} />
-
+      <ColumnHeader column={column} onRequestDelete={onRequestDelete} />
       <div className="tasks-list">
         {column.tasks.map((task, idx) => (
           <div
@@ -91,21 +102,25 @@ export const Column: React.FC<ColumnProps> = ({ column }) => {
             onDrop={(e) => handleTaskDrop(e, idx)}
             onDragLeave={() => setDragOverIndex(null)}
           >
-            <TaskCard task={task} columnId={column.id} />
+            <TaskCard
+              task={task}
+              columnId={column.id}
+              onRequestDelete={() => onRequestDeleteTask(task.id)}
+            />
           </div>
         ))}
       </div>
 
       <div className="add-task">
         {!showAddForm ? (
-          <button
-            type="button"
+          <Button
+            variant="button"
             className="add-task-btn"
             onClick={() => setShowAddForm(true)}
           >
             <Icon name="plus" />
             Add a task
-          </button>
+          </Button>
         ) : (
           <form
             className="add-task-input-wrapper"
@@ -125,8 +140,14 @@ export const Column: React.FC<ColumnProps> = ({ column }) => {
               }}
             />
             <div className="add-task-actions">
-              <Button variant="submit">Add</Button>
-              <Button variant="button" onClick={() => setShowAddForm(false)}>
+              <Button variant="submit" className="add-task-submit">
+                Add
+              </Button>
+              <Button
+                variant="button"
+                className="add-task-cancel"
+                onClick={() => setShowAddForm(false)}
+              >
                 Cancel
               </Button>
             </div>

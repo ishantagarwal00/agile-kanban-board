@@ -4,10 +4,8 @@ import { ErrorBoundary } from "../../ErrorBoundary";
 
 export const KanbanBoard: React.FC = () => {
   return (
-    <>
-      <ErrorBoundary>
-        <BoardLayout />
-      </ErrorBoundary>
-    </>
+    <ErrorBoundary>
+      <BoardLayout />
+    </ErrorBoundary>
   );
 };

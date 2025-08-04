@@ -3,7 +3,7 @@ import "./Button.css";
 
 interface ButtonProps {
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   disabled?: boolean;
   className?: string;
   variant?: "button" | "submit" | "reset";
@@ -15,12 +15,15 @@ export const Button: React.FC<ButtonProps> = ({
   disabled = false,
   className = "",
   variant = "button",
+  ...rest
 }) => (
   <button
     type={variant}
     onClick={onClick}
     disabled={disabled}
     className={`btn ${className}`}
+    aria-label="button"
+    {...rest}
   >
     {children}
   </button>

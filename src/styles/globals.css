@@ -18,7 +18,7 @@ html {
 }
 
 body {
-  background: #ffffff;
+  background: var(--color-white);
   font-family: var(--font-family-primary);
   font-size: var(--font-size-base);
   line-height: var(--line-height-normal);
@@ -59,9 +59,24 @@ button {
   padding: 0 var(--spacing-md);
 }
 
-/* Responsive Utilities */
 @media (max-width: 768px) {
+  .app {
+    padding: var(--spacing-md);
+  }
+
   .container {
     padding: 0 var(--spacing-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  input,
+  textarea,
+  .btn {
+    font-size: 1rem;
+  }
+
+  .btn {
+    padding: 0.5rem 1rem;
   }
 }

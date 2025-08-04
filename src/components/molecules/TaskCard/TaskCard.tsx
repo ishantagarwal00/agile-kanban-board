@@ -1,4 +1,3 @@
-// src/components/TaskCard/TaskCard.tsx
 import React, { useContext, useCallback } from "react";
 import { Task } from "../../../types";
 import { BoardContext } from "../../../contexts/BoardContext/BoardContext";
@@ -9,10 +8,16 @@ import "./TaskCard.css";
 interface TaskCardProps {
   task: Task;
   columnId: string;
+  onRequestDelete?: () => void;
 }
 
-export const TaskCard: React.FC<TaskCardProps> = ({ task, columnId }) => {
-  const { selectTask, draggedTask, setDraggedTask } = useContext(BoardContext)!;
+export const TaskCard: React.FC<TaskCardProps> = ({
+  task,
+  columnId,
+  onRequestDelete,
+}) => {
+  const { draggedTask, setDraggedTask, openTaskModal } =
+    useContext(BoardContext)!;
   const isDragging = draggedTask?.taskId === task.id;
 
   const handleDragStart = useCallback(
@@ -23,17 +28,20 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task, columnId }) => {
     [task.id, columnId, setDraggedTask]
   );
 
-  const handleClick = useCallback(() => selectTask(task), [selectTask, task]);
+  let createdAtDate = new Date(task.createdAt);
+  if (isNaN(createdAtDate.getTime())) {
+    createdAtDate = new Date();
+  }
 
   return (
     <div
       className={`task-card ${isDragging ? "task-card--dragging" : ""}`}
       draggable
       onDragStart={handleDragStart}
-      onClick={handleClick}
+      onClick={() => openTaskModal(task, "view")}
       tabIndex={0}
       onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") handleClick();
+        if (e.key === "Enter" || e.key === " ") openTaskModal(task, "view");
       }}
       role="button"
       aria-pressed={isDragging}
@@ -49,17 +57,32 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task, columnId }) => {
             aria-label="Edit task"
             onClick={(e) => {
               e.stopPropagation();
-              selectTask(task);
+              openTaskModal(task, "edit");
             }}
           >
             <Icon name="edit" />
           </button>
+          {onRequestDelete && (
+            <button
+              type="button"
+              className="icon-wrapper"
+              aria-label="Delete task"
+              onClick={(e) => {
+                e.stopPropagation();
+                onRequestDelete();
+              }}
+            >
+              <Icon name="delete" />
+            </button>
+          )}
         </div>
       </div>
 
       <div className="task-meta">
-        <time className="task-date">
-          {new Date(task.createdAt).toLocaleDateString()}
+        <time className="task-date" dateTime={createdAtDate.toISOString()}>
+          {isNaN(createdAtDate.getTime())
+            ? "?"
+            : createdAtDate.toLocaleDateString()}
         </time>
         <div
           className="comment-count"

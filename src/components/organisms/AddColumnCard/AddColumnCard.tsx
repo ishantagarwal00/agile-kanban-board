@@ -1,4 +1,4 @@
-import React, { useRef, useContext, useState } from "react";
+import React, { useRef, useContext, useState, useEffect } from "react";
 import { BoardContext } from "../../../contexts/BoardContext/BoardContext";
 import "./AddColumnCard.css";
 
@@ -6,16 +6,29 @@ export const AddColumnCard: React.FC = () => {
   const { addColumn } = useContext(BoardContext)!;
   const [isEditing, setIsEditing] = useState(false);
   const editableRef = useRef<HTMLDivElement>(null);
+  const [prevText, setPrevText] = useState("");
+
+  useEffect(() => {
+    if (isEditing && editableRef.current) {
+      editableRef.current.focus();
+      setPrevText(editableRef.current.innerText);
+    }
+  }, [isEditing]);
 
   const handleStartEditing = () => {
     setIsEditing(true);
-    setTimeout(() => {
-      editableRef.current?.focus();
-    }, 0);
+  };
+  const handleAddColumn = () => {
+    const text = editableRef.current?.innerText.trim() || "";
+    if (!text) return;
+    addColumn(text);
+    setIsEditing(false);
+    if (editableRef.current) editableRef.current.innerText = "";
   };
 
   const handleBlur = () => {
-    const text = editableRef.current?.innerText.trim();
+    const text = editableRef.current?.innerText.trim() || "";
+    if (!text) return;
     if (text) {
       addColumn(text!);
     }
@@ -23,14 +36,18 @@ export const AddColumnCard: React.FC = () => {
     setIsEditing(false);
   };
 
+  const handleCancel = () => {
+    if (editableRef.current) editableRef.current.innerText = prevText;
+    setIsEditing(false);
+  };
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
+      handleAddColumn();
       editableRef.current?.blur();
     } else if (e.key === "Escape") {
       e.preventDefault();
-      editableRef.current!.innerText = "";
-      setIsEditing(false);
+      handleCancel();
     }
   };
 
@@ -53,11 +70,9 @@ export const AddColumnCard: React.FC = () => {
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
           data-placeholder="+ Add Column"
-          aria-label="Column title"
+          aria-label="Add new column"
           spellCheck={false}
-        >
-          {/* Only render text if editing, otherwise leave empty for placeholder */}
-        </div>
+        />
       </div>
     </div>
   );
