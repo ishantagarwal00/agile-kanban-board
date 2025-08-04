@@ -1,46 +1,157 @@
-# Getting Started with Create React App
+# Agile Kanban Board
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Mini Kanban board application built with React and TypeScript**. Manage tasks across dynamic columns, view details with comments, and drag-and-drop between stages. Data persists via localStorage.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Table of Contents  
+- [Demo](#demo)  
+- [Features](#features)  
+- [Built With](#built-with)  
+- [Getting Started](#getting-started)  
+  - [Prerequisites](#prerequisites)  
+  - [Installation](#installation)  
+- [Usage](#usage)  
+- [Project Structure](#project-structure)  
+- [State Management](#state-management)  
+- [Styling](#styling)  
+- [LocalStorage Persistence](#localstorage-persistence)  
+- [Contributing](#contributing)  
+- [Future Improvements](#future-improvements)  
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Demo  
+<img width="1300" height="776" alt="image" src="https://github.com/user-attachments/assets/6983a0c2-0b71-47e6-b453-67b90dbf88c1" />
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+https://agile-kanban-board-eqnegea15-ishants-projects-fd39bf13.vercel.app
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Features  
+- **Dynamic Columns**: Three defaults - To Do, In Progress, Done. Add, rename, delete columns.  
+- **Task Cards**: Create, edit (title & description), delete tasks. Title displayed on card.  
+- **Task Details & Comments**: Click card to open modal with full info and comment thread (add/edit/delete comments).  
+- **Drag & Drop**: Move and reorder tasks  
+- **Data Persistence**: Board state stored in `localStorage`, surviving page reloads.  
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Built With  
+- React (Functional components & Hooks)  
+- TypeScript  
+- React Context API + `useReducer`  
+- CSS
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Getting Started  
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Prerequisites  
+- Node.js ≥14  
+- npm or Yarn  
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Installation  
+1. Clone the repo  
+   ```bash
+   git clone https://github.com/ishantagarwal/agile-kanban-board.git
+   cd agile-kanban-board
+   ```
+2. Install dependencies  
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+---
 
-## Learn More
+## Usage  
+- Start dev server:  
+  ```bash
+  npm start
+  # or
+  yarn start
+  ```
+- Open `http://localhost:3000` in your browser.  
+- Build for production:  
+  ```bash
+  npm run build
+  ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Project Structure  
+```
+src/
+├── components/
+│   ├── atoms/
+│   │   └── Button/
+│   │   └── Icon/
+│   │   └── Input/
+│   │   └── TextArea/
+│   │   └── Typography/
+│   ├── molecules/
+│   │   └── ColumnHeader/
+│   │   └── TaskCard/
+│   │   └── templates/
+│   │   └── templates/
+│   ├── organisms/
+│   │   └── AddColumnCard/
+│   │   └── Column/
+│   │   └── CommentSection/
+│   │   └── ConfirmationModal/
+│   │   └── TaskModal/
+|   |── pages
+│   │   └── KanbanBoard/
+│   └── templates/
+│       └── BoardLayout/
+├── context/
+│   └── BoardContext/
+├── hooks/
+├── styles/
+│   └── globals.css/
+│   └── variables.css/
+├── types/
+├── utils/
+└── App.tsx
+```
+
+---
+
+## State Management  
+Global board state (columns, tasks, comments) managed via React Context + `useReducer`. Actions include:  
+- `ADD_COLUMN`, `RENAME_COLUMN`, `DELETE_COLUMN`  
+- `ADD_TASK`, `EDIT_TASK`, `DELETE_TASK`  
+- `ADD_COMMENT`, `EDIT_COMMENT`, `DELETE_COMMENT`  
+- `MOVE_TASK`, `REORDER_TASKS`  
+
+---
+
+## Styling  
+CSS styles per component for maintainability. Follows BEM-like conventions for class naming.  
+
+---
+
+## LocalStorage Persistence  
+Utility functions abstract CRUD operations to save and load board state as JSON in `localStorage`. State initializes from storage on app load, then updates on each dispatch.  
+
+---
+
+## Contributing  
+Contributions welcome!  
+1. Fork the repository  
+2. Create a feature branch (`git checkout -b feature/YourFeature`)  
+3. Commit your changes (`git commit -m "Add your feature"`)  
+4. Push to branch (`git push origin feature/YourFeature`)  
+5. Open a Pull Request  
+
+---
+
+## Future Improvements  
+- **Reddit-style nested comments**
+- **Backend integration** for multi-user real-time sync  
+
+---
