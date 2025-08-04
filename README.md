@@ -25,8 +25,7 @@
 <img width="1300" height="776" alt="image" src="https://github.com/user-attachments/assets/6983a0c2-0b71-47e6-b453-67b90dbf88c1" />
 
 
-
-https://agile-kanban-board-eqnegea15-ishants-projects-fd39bf13.vercel.app
+https://agile-kanban-board.vercel.app/
 
 ---
 
