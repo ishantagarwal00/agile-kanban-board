@@ -1,5 +1,5 @@
 .add-column-card {
-  background: rgba(255, 255, 255, 0.97);
+  background: var(--color-surface);
   border: 2px dashed var(--color-gray-300);
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-sm);

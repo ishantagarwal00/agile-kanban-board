@@ -10,6 +10,7 @@
     border-color var(--transition-base);
   position: relative;
   margin-bottom: var(--spacing-sm);
+  animation: fadeInUp 0.25s ease-out both;
 }
 
 .task-card:hover {
@@ -71,8 +72,15 @@
   flex-shrink: 0;
 }
 
-.task-card:hover .task-actions {
-  opacity: 1;
+@media (hover: hover) {
+  .task-card:hover .task-actions {
+    opacity: 1;
+  }
+}
+@media (hover: none) {
+  .task-actions {
+    opacity: 1;
+  }
 }
 
 .icon-wrapper {

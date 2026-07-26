@@ -1,6 +1,5 @@
 @import "./variables.css";
 
-/* Reset and Base Styles */
 *,
 *::before,
 *::after {
@@ -18,23 +17,16 @@ html {
 }
 
 body {
-  background: var(--color-white);
+  background: var(--color-background);
   font-family: var(--font-family-primary);
   font-size: var(--font-size-base);
   line-height: var(--line-height-normal);
   color: var(--color-gray-800);
   min-height: 100vh;
   margin: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  transition: background var(--transition-base), color var(--transition-base);
 }
 
-.app {
-  min-height: 100vh;
-  padding: var(--spacing-lg);
-}
-
-/* Form Elements */
 input,
 textarea,
 select,
@@ -47,36 +39,27 @@ button {
   cursor: pointer;
 }
 
-/* Focus States */
 *:focus {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--spacing-md);
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-@media (max-width: 768px) {
-  .app {
-    padding: var(--spacing-md);
-  }
-
-  .container {
-    padding: 0 var(--spacing-sm);
-  }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-@media (max-width: 480px) {
-  input,
-  textarea,
-  .btn {
-    font-size: 1rem;
-  }
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
 
-  .btn {
-    padding: 0.5rem 1rem;
-  }
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }
